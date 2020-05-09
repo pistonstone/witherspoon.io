@@ -22,6 +22,6 @@ jobs:
             ./butler push assets $ITCH_IO_PROJECT:$ITCH_IO_CHANNEL --userversion-file assets/version.txt
           fi
         env:
-          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+          BUTLER_API_KEY: ${{ secrets.5V6JY8NNbT7IgtkFF9epwDEWmd5YjkTNVBPKbOnC }}
           ITCH_IO_PROJECT: https://github.com/pistonstone/witherspoon.io
           ITCH_IO_CHANNEL: HTML
