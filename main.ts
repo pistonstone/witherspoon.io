@@ -250,14 +250,15 @@ e e e e e e e e e e e e e e e f
 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 
 `
 }
-sprites.onCreated(SpriteKind.Player, function (sprite) {
-	
-})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
     scene.cameraShake(2, 5000)
 })
 scene.onOverlapTile(SpriteKind.Player, myTiles.tile4, function (sprite, location) {
-    game.over(true, effects.splatter)
+    info.stopCountdown()
+    game.splash("Ahh, that's better!")
+    music.magicWand.play()
+    info.changeScoreBy(100)
+    levelup()
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Projectile, function (sprite, otherSprite) {
     info.changeScoreBy(1)
@@ -272,15 +273,33 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
     }
     otherSprite.destroy(effects.spray, 2000)
 })
+function levelup () {
+    game.splash("Get back to the bar ", "for a pint!")
+    Drunk = sprites.create(img`
+. . . . . . e e e . . . . . . . 
+. . . . . e 3 3 3 e . . . . . . 
+. . . . . e f 3 f e . . . . . . 
+. . . . . . 3 f 3 . . . . . . . 
+. . . . . 4 4 4 4 4 4 . . . . . 
+. . . . 4 4 4 4 4 4 4 4 . . . . 
+. . . . 4 b 4 4 4 4 b 4 . . . . 
+. . . . 4 b 4 4 4 4 b 4 . . . . 
+. . . . 4 b 4 4 4 4 b 4 . . . . 
+. . . . 4 b 4 4 4 4 b 4 . . . . 
+. . . . 4 8 8 8 8 8 8 4 . . . . 
+. . . . 3 8 8 8 8 8 8 3 . . . . 
+. . . . . 8 8 8 6 8 8 . . . . . 
+. . . . . 8 8 8 6 8 8 . . . . . 
+. . . . . 8 8 8 6 8 8 . . . . . 
+. . . . f f f f f f f f . . . . 
+`, SpriteKind.Player)
+}
 scene.onOverlapTile(SpriteKind.Player, myTiles.tile8, function (sprite, location) {
     info.startCountdown(90)
     music.baDing.play()
 })
 scene.onOverlapTile(SpriteKind.Player, myTiles.tile7, function (sprite, location) {
     game.over(false, effects.confetti)
-})
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Player, function (sprite, otherSprite) {
-	
 })
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     if (Drunk.vy == 0) {
@@ -532,7 +551,7 @@ for (let value3 of tiles.getTilesByType(myTiles.tile12)) {
 . . . . . . . . . . . . . . . . 
 . . f f f f f f f f f f f f f . 
 . . f . . . . . . . . . . . f . 
-. . f . . . . . . . . . . . f . 
+. . f . . . . . . . . . 3 . f . 
 . . f f . . . . . . . . . f f . 
 . . . f . . . . . . . . . f . . 
 . . . f . . . . . . . . . f . . 
