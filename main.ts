@@ -250,31 +250,26 @@ e e e e e e e e e e e e e e e f
 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 
 `
 }
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
-    scene.cameraShake(2, 5000)
-})
-scene.onOverlapTile(SpriteKind.Player, myTiles.tile4, function (sprite, location) {
-    info.stopCountdown()
-    game.splash("Ahh, that's better!")
-    music.magicWand.play()
-    info.changeScoreBy(100)
-    levelup()
-})
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Projectile, function (sprite, otherSprite) {
-    info.changeScoreBy(1)
-    info.changeLifeBy(-1)
-    projectile.destroy()
-})
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
-    if (Drunk.y < otherSprite.y) {
-        info.changeScoreBy(5)
-    } else {
-        info.changeLifeBy(-1)
-    }
-    otherSprite.destroy(effects.spray, 2000)
-})
-function levelup () {
-    game.splash("Get back to the bar ", "for a pint!")
+function level2 () {
+    Larger.destroy()
+    whisky.destroy()
+    Drunk.destroy()
+    Levels += 1
+    tiles.setTilemap(tiles.createTilemap(
+            hex`1000080000000000000000000000000000000000000000000000000000000000000000000d0d0d0d0d0d0d0d000000000000000000000000000d00000d0d0d0d0d0d0d0d00000000000000000000000d0d000000000000000000000000000d0d000000000000000000000d0d0d0d0000000000000000000d0000000d0d00000000000000`,
+            img`
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+2 2 2 2 2 . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+`,
+            [myTiles.tile0,myTiles.tile1,myTiles.tile2,myTiles.tile3,myTiles.tile4,myTiles.tile5,myTiles.tile6,myTiles.tile7,myTiles.tile8,myTiles.tile9,myTiles.tile10,myTiles.tile11,myTiles.tile12,sprites.castle.tilePath1],
+            TileScale.Sixteen
+        ))
     Drunk = sprites.create(img`
 . . . . . . e e e . . . . . . . 
 . . . . . e 3 3 3 e . . . . . . 
@@ -293,7 +288,73 @@ function levelup () {
 . . . . . 8 8 8 6 8 8 . . . . . 
 . . . . f f f f f f f f . . . . 
 `, SpriteKind.Player)
+    Drunk.setPosition(15, 7)
+    info.startCountdown(10)
+    for (let index = 0; index <= 4; index++) {
+        baghead = sprites.create(img`
+. . . . . . . . . . . . . . e e e e e e e . . . . . . . . . . . 
+. . . . . . . . . . . . e e 4 5 5 6 6 2 e 2 e . . . . . . . . . 
+. . . . . . . . . . e e 4 5 5 5 6 7 2 3 e 2 6 8 8 . . . . . . . 
+. . . . . . . . . e 4 6 7 7 6 6 7 7 2 3 2 e 7 7 7 6 6 8 . . . . 
+. . . . . . . . e 4 6 7 4 5 5 5 4 7 7 2 2 2 7 7 7 6 7 7 8 . . . 
+. . . . . . . 4 4 4 8 7 4 4 4 4 4 7 7 7 7 6 6 7 7 7 6 7 8 . . . 
+. . . . . . 4 5 2 2 e 7 7 7 7 7 7 6 7 7 7 7 6 6 6 7 6 6 6 8 . . 
+. . . . . 4 5 2 3 2 2 7 7 6 6 7 2 2 e 6 6 6 e e e e e 8 8 8 . . 
+. . . . 4 5 5 2 3 2 e 7 6 6 7 2 3 2 2 e 4 5 5 5 d d d d 4 8 . . 
+. . . 4 4 5 6 7 7 7 7 5 5 4 6 2 3 e 4 5 5 d d d d d d d d d 4 . 
+. . . e 6 6 7 7 4 5 5 4 4 7 7 e 4 5 5 d d d d 5 5 5 5 4 d d 4 4 
+. . e 4 6 7 7 7 4 4 4 6 7 7 e 5 5 d d 5 5 5 5 5 d 5 5 d d d d 4 
+. . e 5 6 6 8 6 7 7 6 6 6 e 5 d d 5 5 5 5 5 5 5 5 5 5 5 5 d d e 
+. e 4 5 5 4 4 e 8 7 7 6 e 5 d 5 5 5 5 5 4 5 5 5 5 5 5 5 5 5 d e 
+. e 5 5 4 e e e e 6 6 e 5 d 5 5 5 5 d 5 5 5 5 5 d d d d 5 4 d e 
+. e 5 5 e e 4 4 f e e 5 d 5 d 5 5 5 5 5 5 d 5 d 5 d d d d d d e 
+e 4 5 4 e e e e f e 4 5 d 5 5 5 5 5 5 5 5 5 5 5 d d 4 d d d e . 
+e 5 e 4 e e f f f e 5 d 5 5 5 5 5 5 5 5 d 5 5 5 5 d d d d e . . 
+e 5 e e 4 e e f f 4 5 d 5 5 5 5 5 5 5 5 5 5 5 5 d d d d e . . . 
+e 5 e e e e f f e 5 d 5 5 d 5 5 5 d 5 5 5 5 d 5 d d d e . . . . 
+e 5 f f e f e e e 5 d 5 5 5 4 5 5 5 5 5 5 5 d d d 4 e . . . . . 
+e 5 f f f f f f e 5 4 5 5 5 5 5 5 5 d 5 d 4 d d e e . . . . . . 
+e 5 4 e f e f f 4 5 d 5 5 d 5 5 5 5 5 d d d d e . . . . . . . . 
+e 5 e e e f f e 5 d d 5 5 5 5 5 4 5 d d d e e . . . . . . . . . 
+e 4 e e e f f f 5 d 5 5 5 5 d 5 5 d d d e . . . . . . . . . . . 
+e 4 e f e f f f 5 d 5 d 5 5 5 5 5 d 4 e . . . . . . . . . . . . 
+. e 4 e f f f e 5 d 5 5 5 5 5 5 d e e . . . . . . . . . . . . . 
+. e 5 4 e e e e 5 d 5 4 5 d d 4 e . . . . . . . . . . . . . . . 
+. . e 5 5 4 e e 5 d d d d d e e . . . . . . . . . . . . . . . . 
+. . . e e 5 5 4 4 d d d e e . . . . . . . . . . . . . . . . . . 
+. . . . . e e e e e e e . . . . . . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
+`, SpriteKind.Enemy)
+        baghead.setPosition(Math.randomRange(0, 10), Math.randomRange(0, 10))
+    }
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
+    scene.cameraShake(2, 5000)
+})
+scene.onOverlapTile(SpriteKind.Player, myTiles.tile4, function (sprite, location) {
+    if (true) {
+        info.stopCountdown()
+        game.splash("Ahh, thank god!")
+        music.magicWand.play()
+        info.changeScoreBy(100)
+    } else {
+        music.baDing.play()
+    }
+    level2()
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Projectile, function (sprite, otherSprite) {
+    info.changeScoreBy(1)
+    info.changeLifeBy(-1)
+    projectile.destroy()
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
+    if (Drunk.y < otherSprite.y) {
+        info.changeScoreBy(5)
+    } else {
+        info.changeLifeBy(-1)
+    }
+    otherSprite.destroy(effects.spray, 2000)
+})
 scene.onOverlapTile(SpriteKind.Player, myTiles.tile8, function (sprite, location) {
     info.startCountdown(90)
     music.baDing.play()
@@ -312,6 +373,8 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.pint, function (sprite, otherSpr
     otherSprite.destroy(effects.bubbles, 500)
 })
 let projectile: Sprite = null
+let baghead: Sprite = null
+let Levels = 0
 let whisky: Sprite = null
 let aliki: Sprite = null
 let Larger: Sprite = null
@@ -568,6 +631,7 @@ for (let value3 of tiles.getTilesByType(myTiles.tile12)) {
     info.changeScoreBy(1)
     music.magicWand.play()
 }
+let Messages = ["I'm gonna piss myself", "Ahh thank god", "Better hurry for the last pint!"]
 game.onUpdateInterval(2000, function () {
     projectile = sprites.createProjectileFromSprite(img`
 . . . . . . . . . . . . . . . . 
