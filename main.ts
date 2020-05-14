@@ -256,16 +256,12 @@ function level2 () {
     Drunk.destroy()
     Levels += 1
     tiles.setTilemap(tiles.createTilemap(
-            hex`1000080000000000000000000000000000000000000000000000000000000000000000000d0d0d0d0d0d0d0d000000000000000000000000000d00000d0d0d0d0d0d0d0d00000000000000000000000d0d000000000000000000000000000d0d000000000000000000000d0d0d0d0000000000000000000d0000000d0d00000000000000`,
+            hex`1000040000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000`,
             img`
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
-2 2 2 2 2 . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
+2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
 `,
             [myTiles.tile0,myTiles.tile1,myTiles.tile2,myTiles.tile3,myTiles.tile4,myTiles.tile5,myTiles.tile6,myTiles.tile7,myTiles.tile8,myTiles.tile9,myTiles.tile10,myTiles.tile11,myTiles.tile12,sprites.castle.tilePath1],
             TileScale.Sixteen
@@ -288,8 +284,7 @@ function level2 () {
 . . . . . 8 8 8 6 8 8 . . . . . 
 . . . . f f f f f f f f . . . . 
 `, SpriteKind.Player)
-    Drunk.setPosition(15, 7)
-    info.startCountdown(10)
+    Drunk.setPosition(15, 2)
     for (let index = 0; index <= 4; index++) {
         baghead = sprites.create(img`
 . . . . . . . . . . . . . . e e e e e e e . . . . . . . . . . . 
@@ -325,7 +320,25 @@ e 4 e f e f f f 5 d 5 d 5 5 5 5 5 d 4 e . . . . . . . . . . . .
 . . . . . e e e e e e e . . . . . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 `, SpriteKind.Enemy)
-        baghead.setPosition(Math.randomRange(0, 10), Math.randomRange(0, 10))
+        projectile = sprites.createProjectileFromSprite(img`
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+f . f f f f f f f f . . . . . . 
+f f f 1 1 e e e e e f . . . . . 
+f 1 1 1 1 e e e e e e f f f f f 
+f 1 1 1 1 e e e e e e f . . . . 
+f f f 1 1 e e e e e f . . . . . 
+f . f f f f f f f f . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+`, aliki, 10, 0)
+        baghead.setPosition(Math.randomRange(0, 8), 2)
     }
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
@@ -347,6 +360,11 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Projectile, function (sprite, ot
     info.changeLifeBy(-1)
     projectile.destroy()
 })
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (Drunk.vy == 0) {
+        Drunk.vy = -150
+    }
+})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     if (Drunk.y < otherSprite.y) {
         info.changeScoreBy(5)
@@ -361,11 +379,6 @@ scene.onOverlapTile(SpriteKind.Player, myTiles.tile8, function (sprite, location
 })
 scene.onOverlapTile(SpriteKind.Player, myTiles.tile7, function (sprite, location) {
     game.over(false, effects.confetti)
-})
-controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (Drunk.vy == 0) {
-        Drunk.vy = -150
-    }
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.pint, function (sprite, otherSprite) {
     info.changeScoreBy(1)
