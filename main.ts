@@ -251,22 +251,27 @@ e e e e e e e e e e e e e e e f
 `
 }
 function level2 () {
+    Drunk.destroy()
     Larger.destroy()
     whisky.destroy()
-    Drunk.destroy()
     Levels += 1
     tiles.setTilemap(tiles.createTilemap(
-            hex`1000040000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000`,
+            hex`0a00080000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000e0f0f0f0f0f0f0f0f100000000000000000000000000000000000000000`,
             img`
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+2 2 2 2 2 2 2 2 2 2 
+. . . . . . . . . . 
+. . . . . . . . . . 
 `,
-            [myTiles.tile0,myTiles.tile1,myTiles.tile2,myTiles.tile3,myTiles.tile4,myTiles.tile5,myTiles.tile6,myTiles.tile7,myTiles.tile8,myTiles.tile9,myTiles.tile10,myTiles.tile11,myTiles.tile12,sprites.castle.tilePath1],
+            [myTiles.tile0,myTiles.tile1,myTiles.tile2,myTiles.tile3,myTiles.tile4,myTiles.tile5,myTiles.tile6,myTiles.tile7,myTiles.tile8,myTiles.tile9,myTiles.tile10,myTiles.tile11,myTiles.tile12,sprites.castle.tilePath1,sprites.dungeon.darkGroundNorthWest0,sprites.dungeon.darkGroundNorth,sprites.dungeon.darkGroundNorthEast0],
             TileScale.Sixteen
         ))
-    Drunk = sprites.create(img`
+    scene.setBackgroundColor(12)
+    drunk2 = sprites.create(img`
 . . . . . . e e e . . . . . . . 
 . . . . . e 3 3 3 e . . . . . . 
 . . . . . e f 3 f e . . . . . . 
@@ -284,7 +289,8 @@ function level2 () {
 . . . . . 8 8 8 6 8 8 . . . . . 
 . . . . f f f f f f f f . . . . 
 `, SpriteKind.Player)
-    Drunk.setPosition(15, 2)
+    scene.cameraFollowSprite(drunk2)
+    drunk2.setPosition(10, 0)
     for (let index = 0; index <= 4; index++) {
         baghead = sprites.create(img`
 . . . . . . . . . . . . . . e e e e e e e . . . . . . . . . . . 
@@ -319,26 +325,8 @@ e 4 e f e f f f 5 d 5 d 5 5 5 5 5 d 4 e . . . . . . . . . . . .
 . . . e e 5 5 4 4 d d d e e . . . . . . . . . . . . . . . . . . 
 . . . . . e e e e e e e . . . . . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
-`, SpriteKind.Enemy)
-        projectile = sprites.createProjectileFromSprite(img`
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-f . f f f f f f f f . . . . . . 
-f f f 1 1 e e e e e f . . . . . 
-f 1 1 1 1 e e e e e e f f f f f 
-f 1 1 1 1 e e e e e e f . . . . 
-f f f 1 1 e e e e e f . . . . . 
-f . f f f f f f f f . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-`, aliki, 10, 0)
-        baghead.setPosition(Math.randomRange(0, 8), 2)
+`, SpriteKind.Food)
+        baghead.setPosition(Math.randomRange(0, 8), 5)
     }
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
@@ -387,6 +375,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.pint, function (sprite, otherSpr
 })
 let projectile: Sprite = null
 let baghead: Sprite = null
+let drunk2: Sprite = null
 let Levels = 0
 let whisky: Sprite = null
 let aliki: Sprite = null
