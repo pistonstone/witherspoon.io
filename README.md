@@ -3,6 +3,8 @@
 
 
 ## Use this extension
+can be played at https://pistonstone.itch.io/
+
 
 This repository can be added as an **extension** in MakeCode.
 
